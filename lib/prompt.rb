@@ -2,6 +2,7 @@ require 'openai'
 require 'dotenv/load'
 require 'optparse'
 require 'tty-markdown' # https://github.com/piotrmurach/tty-markdown
+require 'fileutils'
 require_relative 'context'
 require_relative 'version'
 

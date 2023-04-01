@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_dependency 'ruby-openai', '~> 3.7'
-  # s.add_dependency "dotenv", "~> 2.8" # already pulled in by ruby-openai
+  s.add_dependency "dotenv", "~> 2.7"
   s.add_dependency 'optparse', '~> 0.3'
   s.add_dependency 'tty-markdown', '~> 0.7'
 
