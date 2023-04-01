@@ -7,6 +7,8 @@ https://platform.openai.com/account/api-keys
 You will be asked to provide on first use of `ruby-openai-cli`, or you can
 provide it as `OPENAI_API_KEY` in your environment.
 
+![image](https://user-images.githubusercontent.com/582520/229294457-81542496-1401-450e-a6e2-279dc7de27d3.png)
+
 ### Development
 
 * Install dependencies: `gem install ruby-openai optparse tty-markdown`
