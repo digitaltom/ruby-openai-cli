@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/ruby-openai-cli.svg)](https://badge.fury.io/rb/ruby-openai-cli)
+
 ## Ruby-OpenAI-CLI
 
 A tool to query OpenAI's GPT APIs from the command line.
