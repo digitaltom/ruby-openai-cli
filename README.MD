@@ -14,7 +14,7 @@ provide it as `OPENAI_API_KEY` in your environment.
 To install the gem, run: `gem install ruby-openai-cli`. Then you can 
 use the tool by calling `gem install ruby-openai-cli` on your command line.
 
-![image](https://user-images.githubusercontent.com/582520/229294457-81542496-1401-450e-a6e2-279dc7de27d3.png)
+![image](https://user-images.githubusercontent.com/582520/229295020-e8aa962c-6a87-45e2-802a-c8d41026a56d.png)
 
 ### Development
 
