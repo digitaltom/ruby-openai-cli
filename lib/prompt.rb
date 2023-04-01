@@ -1,6 +1,4 @@
 require 'openai'
-require 'byebug'
-require 'awesome_print'
 require 'dotenv/load'
 require 'optparse'
 require 'tty-markdown' # https://github.com/piotrmurach/tty-markdown

@@ -18,6 +18,6 @@ use the tool by calling `ruby-openai-cli` on your command line.
 
 ### Development
 
-* Install dependencies: `gem install ruby-openai optparse tty-markdown`
+* Install dev dependencies: `gem install awesome_print byebug rubocop`
 * Build Rubygem: `gem build ruby-openai-cli.gemspec`
 * Publish Rubygem: `gem push ruby-openai-cli-1.0.gem`
