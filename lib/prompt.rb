@@ -7,34 +7,38 @@ require 'tty-markdown' # https://github.com/piotrmurach/tty-markdown
 require_relative 'context'
 require_relative 'version'
 
-CONFIG_DIR = Dir.home + "/.config/ruby-openai-cli"
-CHATS_DIR = CONFIG_DIR + "/chats"
-API_KEY_FILE = CONFIG_DIR + "/api_key"
-CONTEXTS_FILE = CONFIG_DIR + "/contexts.json"
+CONFIG_DIR = Dir.home + '/.config/ruby-openai-cli'
+CHATS_DIR = CONFIG_DIR + '/chats'
+API_KEY_FILE = CONFIG_DIR + '/api_key'
+CONTEXTS_FILE = CONFIG_DIR + '/contexts.json'
 
 MODEL = 'gpt-3.5-turbo'
 
 options = {}
+bin_name = File.basename($0)
 OptionParser.new do |opts|
-  bin_name = File.basename($0)
   opts.banner = "#{bin_name}, version: #{VERSION}. Usage: #{bin_name} [options]"
-  opts.on('-q', '--question QUESTION', 'Provide question as parameter and receive answer to stdout') { |v| options[:q] = v }
-  opts.on('--context CONTEXT', 'Provide a context for ChatGPT') { |v| options[:context] = v }
+  opts.on('-q', '--question QUESTION', 'Provide question as parameter and receive answer to stdout') do |v|
+    options[:q] = v
+  end
+  opts.on('--context CONTEXT', 'Use a context') { |v| options[:context] = v }
+  opts.on('--list-contexts', 'List available contexts') { |_v| options[:lc] = true }
   opts.on('-d', '--debug', 'Debug mode') { |_v| options[:d] = true }
   opts.on('-c', '--chat [NAME]', 'Start an interactive conversation (saved as NAME). ' \
-                                 'You can continue a previous chat by providing the same name.') do |name|
+                                 'You can continue a previous chat by providing the same name') do |name|
     options[:chat] = true
     FileUtils.mkdir_p(CHATS_DIR) if name
     options[:chat_name] = name
     options[:chat_file] = CHATS_DIR + "/#{name}.json"
   end
+  opts.on('-l', '--list-chats', 'List stored chats') { |_v| options[:l] = true }
 end.parse!
 
 unless ENV.fetch('OPENAI_API_KEY', nil)
   unless File.exist?(API_KEY_FILE)
-    puts "To use the OpenAI API, you need to get API key at https://platform.openai.com/account/api-keys."
+    puts 'To use the OpenAI API, you need to get API key at https://platform.openai.com/account/api-keys.'
     puts "It will get stored at #{API_KEY_FILE}."
-    puts "Please enter your API key:"
+    puts 'Please enter your API key:'
     FileUtils.mkdir_p(CONFIG_DIR)
     key = gets.chomp
     test_response = OpenAI::Client.new(access_token: key).models.list
@@ -56,18 +60,36 @@ prompt = ''
 client = OpenAI::Client.new
 
 def get_input
-  printf TTY::Markdown.parse('**Your message>**', theme: {strong: %i[yellow bold]})
+  printf TTY::Markdown.parse('**Your message>**', theme: { strong: %i[yellow bold] })
   gets.chomp
 end
 
 def format_input(input)
   puts TTY::Markdown.parse("**Your message>**\n" + input + "\n",
-    theme: {strong: %i[yellow bold]},)
+                           theme: { strong: %i[yellow bold] })
 end
 
 def format_response(response)
   puts TTY::Markdown.parse("\n**ChatGPT response:**\n" + response + "\n\n",
-    theme: {strong: %i[blue bold]},)
+                           theme: { strong: %i[blue bold] })
+end
+
+if options[:lc]
+  puts 'Available contexts: '
+  DEFAULT_CONTEXTS.keys.each do |ctx|
+    puts ctx
+  end
+  exit
+end
+
+if options[:l]
+  out = "**Available chats:**\n\n"
+  Dir[CHATS_DIR + '/*'].each do |file|
+    out += "* '#{File.basename(file, '.json')}'\n"
+  end
+  out += "\nYou can continue a chat with: `#{bin_name} -c '<chat name>'`"
+  puts TTY::Markdown.parse(out)
+  exit
 end
 
 messages_history = []
@@ -80,12 +102,8 @@ if options[:chat_name] && File.exist?(options[:chat_file])
 end
 
 if options[:context]
-  if DEFAULT_CONTEXTS[options[:context].to_sym]
-    context = DEFAULT_CONTEXTS[options[:context].to_sym]
-  else
-    context = options[:context]
-  end
-  messages_history << {role: "system", content: context}
+  context = DEFAULT_CONTEXTS[options[:context].to_sym] || options[:context]
+  messages_history << { role: 'system', content: context }
 end
 
 begin
