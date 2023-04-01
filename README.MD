@@ -20,3 +20,4 @@ use the tool by calling `ruby-openai-cli` on your command line.
 
 * Install dependencies: `gem install ruby-openai optparse tty-markdown`
 * Build Rubygem: `gem build ruby-openai-cli.gemspec`
+* Publish Rubygem: `gem push ruby-openai-cli-1.0.gem`

@@ -88,6 +88,7 @@ if options[:l]
     out += "* '#{File.basename(file, '.json')}'\n"
   end
   out += "\nYou can continue a chat with: `#{bin_name} -c '<chat name>'`"
+  out += "\nYour chats are stored at `#{CHATS_DIR}`"
   puts TTY::Markdown.parse(out)
   exit
 end
