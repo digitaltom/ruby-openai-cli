@@ -30,4 +30,4 @@ You can also run the tool from a container without installing it:
 
 * Install dev dependencies: `gem install awesome_print byebug rubocop`
 * Build Rubygem: `gem build ruby-openai-cli.gemspec`
-* Build container image: `docker build -t ghcr.io/digitaltom/ruby-openai-cli:latest .`
+* Build container image: `docker build -t ghcr.io/digitaltom/ruby-openai-cli .`
